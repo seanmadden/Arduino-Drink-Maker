@@ -6,7 +6,8 @@ PORT = 8771           # The same port as used by the server.
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect((HOST, PORT))
-s.sendall('Hello World!')
+#as this is gets stored in a char array, it's your responsibility to null terminate the string
+s.sendall('OPEN123\0')
 #data = s.recv(1024)
 s.close()
 #print 'Received', repr(data)
