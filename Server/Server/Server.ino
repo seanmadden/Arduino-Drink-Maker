@@ -8,6 +8,7 @@
 #include <Ethernet.h>
 #include <SPI.h>
 #include <EthernetUdp.h>
+#include <aJSON.h>
 
 //mac address for my Arduino
 byte mac[] = { 0x00, 0xAA, 0xBA, 0xC4, 0xFF, 0x21 };
@@ -21,6 +22,7 @@ byte packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 char replyBuffer[] = "ack";
 
 EthernetUDP udp;
+aJsonStream ethStream(&udp);
 
 //Pin for the valve
 unsigned int valvePin = 4;
@@ -46,17 +48,24 @@ void loop()
      Serial.print("Received packet of size ");
      Serial.println(packetSize);
      
-     udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
-     Serial.println((char *)packetBuffer);
-     String packet = String((char *)packetBuffer);
-     if (packet == "OPEN")
-     {
-       OpenValve();
-     } else {
-       CloseValve();
-     }
-     packet = "";
-     packetBuffer[0] = '\0';
+     aJsonObject* jsonObject = aJson.parse(&ethStream);
+     Serial.println(aJson.print(jsonObject));
+     
+     aJsonObject *name = aJson.getObjectItem(jsonObject, "4");
+     Serial.println(name->valuestring);
+     Serial.println(name->type);  
+     
+//     udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
+//     Serial.println((char *)packetBuffer);
+//     String packet = String((char *)packetBuffer);
+//     if (packet == "OPEN")
+//     {
+//       OpenValve();
+//     } else {
+//       CloseValve();
+//     }
+//     packet = "";
+//     packetBuffer[0] = '\0';
    }     
    delay(10);
 }
