@@ -8,7 +8,8 @@ PORT = 8771           # The same port as used by the server.
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect((HOST, PORT))
 
-j = json.dumps({'4': 5, '6': 7})
+#tell the arduino how to make a rum and coke.
+j = json.dumps({'ing0': 'rum', 'ing1': 'cola'})
 print j
 
 s.sendall(j)
