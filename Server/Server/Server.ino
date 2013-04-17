@@ -49,23 +49,14 @@ void loop()
      Serial.println(packetSize);
      
      aJsonObject* jsonObject = aJson.parse(&ethStream);
-     Serial.println(aJson.print(jsonObject));
      
-     aJsonObject *name = aJson.getObjectItem(jsonObject, "4");
+     //JSON I'm current sending: {'ing0': 'rum', 'ing1': 'cola'}
+     aJsonObject *name = aJson.getObjectItem(jsonObject, "ing0");
+     aJsonObject *name2 = aJson.getObjectItem(jsonObject, "ing1");
+     
+     //Sooo, you need to print out the name->valueint, not valuestring (which parses it as a string... duh)
      Serial.println(name->valuestring);
-     Serial.println(name->type);  
-     
-//     udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
-//     Serial.println((char *)packetBuffer);
-//     String packet = String((char *)packetBuffer);
-//     if (packet == "OPEN")
-//     {
-//       OpenValve();
-//     } else {
-//       CloseValve();
-//     }
-//     packet = "";
-//     packetBuffer[0] = '\0';
+     Serial.println(name2->valuestring);
    }     
    delay(10);
 }
