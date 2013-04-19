@@ -1,0 +1,9 @@
+{% if drinkList %}
+	<ul>
+        {% for drink in drinkList %}
+		<li><a href='{% url 'detail' drink.Id %}'>{{ drink.name }}</a></li>
+	    {% endfor %}
+	</ul>
+{% else %}
+    <p>Invalid drink</p>
+{% endif %}
